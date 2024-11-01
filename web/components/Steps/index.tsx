@@ -7,14 +7,13 @@ import StepLabel from '@mui/material/StepLabel';
 import classNames from 'classnames';
 import type { PresentationJSON } from 'tlsn-js/build/types';
 import Button from '../Button';
-import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion';
 
 const steps = [
   'Connect Extension',
   'Install Plugin',
   'Run Plugin',
   'Verify Attestation',
-  '🎉 Claim POAP 🎉',
+  '🎉 Success 🎉',
 ];
 
 export default function Steps(): ReactElement {
@@ -192,22 +191,8 @@ export default function Steps(): ReactElement {
                   <li className="text-base font-light">
                     Click the "Verify" button below to verify the attestation
                   </li>
-                  <li className="text-base font-light">
-                    If successful the verified data will show in the
-                    Presentation field and provide you with a link to claim your
-                    POAP
-                  </li>
                 </ul>
               </div>
-            )}
-            {step === 5 && (
-              <>
-                <ClaimPoap
-                  screen_name={screenName}
-                  exploding={exploding}
-                  setStep={setStep}
-                />
-              </>
             )}
           </div>
 
@@ -234,8 +219,7 @@ export default function Steps(): ReactElement {
               webserver.
             </p>
             <p className="text-base font-light">
-              The website will verify your attestation and give a POAP in return
-              (<span className="font-semibold">while supplies last</span>)
+              The website will verify your attestation
             </p>
           </div>
           <p className="font-bold">Please install the extension to proceed </p>
@@ -350,64 +334,6 @@ function DisplayPluginData({
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function ClaimPoap({
-  screen_name,
-  exploding,
-  setStep,
-}: {
-  screen_name: string;
-  exploding: boolean;
-  setStep: any;
-}): ReactElement {
-  const [screenName, setScreenName] = useState('');
-  const [poapLink, setPoapLink] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const handleClaimPoap = async () => {
-      try {
-        if (!screen_name) return;
-        const response = await fetch('/poap-claim', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ screenName: screen_name }),
-        });
-        if (response.status === 200) {
-          const data = await response.json();
-          setPoapLink(data.poapLink);
-        } else {
-          setError(await response.text());
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    handleClaimPoap();
-  }, [screen_name]);
-
-  const mediumProps: ConfettiProps = {
-    force: 0.6,
-    duration: 4000,
-    particleCount: 150,
-    width: 1500,
-    colors: ['#F0FFF', '#F0F8FF', '#483D8B', '#E0FFF', '#778899'],
-  };
-
-  return (
-    <div>
-      {poapLink !== '' && (
-        <a className="button" href={poapLink} target="_blank">
-          Claim POAP!
-        </a>
-      )}
-      {exploding && <ConfettiExplosion {...mediumProps} />}
     </div>
   );
 }

@@ -5,7 +5,6 @@ import { StaticRouter } from 'react-router-dom/server';
 import App from '../web/pages/App';
 import configureAppStore, { AppRootState } from '../web/store';
 import { Provider } from 'react-redux';
-import { getPoapLink } from './util/index';
 
 const app = express();
 const port = 3030;
@@ -79,20 +78,6 @@ app.get('*', (req, res) => {
       </body>
     </html>
     `);
-});
-
-app.post('/poap-claim', (req, res) => {
-  const { screenName } = req.body;
-  if (!screenName) {
-    return res.status(400).send('Missing screen_name');
-  }
-  const poapLink = getPoapLink(screenName);
-
-  if (poapLink) {
-    res.json({ poapLink });
-  } else {
-    res.status(404).send('No POAP links available');
-  }
 });
 
 app.listen(port, () => {

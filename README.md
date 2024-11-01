@@ -2,7 +2,7 @@
 
 Welcome to the **TLSNotary Plugin Demo**! This demo showcases how TLSNotary can be used to verify private user data in web applications.
 
-In this demo, you'll prove that you own a Twitter account to the web server. The website will verify your attestation and, as a reward, you'll receive a POAP (Proof of Attendance Protocol) token — while stocks last!
+In this demo, you'll prove that you own a Twitter account to the web server. The website will verify your attestation
 
 ---
 
@@ -27,6 +27,5 @@ This demo works by leveraging the [Provider API]((https://github.com/tlsnotary/t
 
 1. Clone this repository
 2. Run `npm install`
-3. Insert a `poaps.txt` of POAP mint links and an empty `assignments.json` in `server/util`
-4. Run `npm run dev`
-5. Enjoy the demo
+3. Run `npm run dev`
+4. Enjoy the demo
